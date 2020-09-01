@@ -1,0 +1,493 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>2. crimetables.core package &mdash; crimetables  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="1. Changelog" href="doc.changelog.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> crimetables
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="doc.changelog.html">1. Changelog</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. crimetables.core package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-crimetables.core.table_manipulation">2.1. crimetables.core.table_manipulation module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-crimetables.core.table_types">2.2. crimetables.core.table_types module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-crimetables.core.process_configs">2.3. crimetables.core.process_configs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-crimetables.core.produce_table">2.4. crimetables.core.produce_table module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-crimetables.core.mappers">2.5. crimetables.core.mappers module</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">crimetables</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>2. crimetables.core package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/crimetables.core.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="crimetables-core-package">
+<h1>2. crimetables.core package<a class="headerlink" href="#crimetables-core-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-crimetables.core.table_manipulation">
+<span id="crimetables-core-table-manipulation-module"></span><h2>2.1. crimetables.core.table_manipulation module<a class="headerlink" href="#module-crimetables.core.table_manipulation" title="Permalink to this headline">¶</a></h2>
+<p>Functions to manipulate variable data. These functions will not take
+unspecified keyword arguments, therefore, configuration files must use exact
+parameter names. These functions return a copy, so do not alter the original
+dataframe. As such, you must reassign the return dataframe.</p>
+<dl class="function">
+<dt id="crimetables.core.table_manipulation.apply_weight">
+<code class="sig-prename descclassname">crimetables.core.table_manipulation.</code><code class="sig-name descname">apply_weight</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">weight_variable</em>, <em class="sig-param">variable_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/table_manipulation.html#apply_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.table_manipulation.apply_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply weight column to the specified variables of a dataframe, by
+multiplication. Both the weight variable and variables to be weighted
+should be in the provided dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – dataframe containing columns to be weighted</p></li>
+<li><p><strong>weight_variable</strong> (<em>str</em>) – weight variable name</p></li>
+<li><p><strong>variable_names</strong> (<em>list</em>) – list of variables that should be weighted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>weighted_df</strong> – dataframe containing weighted variables</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimetables.core.table_manipulation.filter_with_value">
+<code class="sig-prename descclassname">crimetables.core.table_manipulation.</code><code class="sig-name descname">filter_with_value</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">variable</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/table_manipulation.html#filter_with_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.table_manipulation.filter_with_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter dataset for rows containing a specific value in a variable column.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – dataframe to be filtered</p></li>
+<li><p><strong>variable</strong> (<em>str</em>) – name of variable to be used for filtering</p></li>
+<li><p><strong>value</strong> (<em>int</em><em> or </em><em>float</em>) – value to filter for in variable column</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>filtered_df</strong> – dataframe that has been filtered for value in variable column</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimetables.core.table_manipulation.filter_with_weight">
+<code class="sig-prename descclassname">crimetables.core.table_manipulation.</code><code class="sig-name descname">filter_with_weight</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">weight_variable</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/table_manipulation.html#filter_with_weight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.table_manipulation.filter_with_weight" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filter dataset for rows with a positive int weight. Drops 0 or NA weights.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – dataframe to be filtered</p></li>
+<li><p><strong>weight_variable</strong> (<em>str</em>) – weight variable name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>filtered_df</strong> – dataframe that has been filtered for positive <cite>weight_variable</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimetables.core.table_manipulation.recode_conditionally">
+<code class="sig-prename descclassname">crimetables.core.table_manipulation.</code><code class="sig-name descname">recode_conditionally</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">target</em>, <em class="sig-param">condition</em>, <em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/table_manipulation.html#recode_conditionally"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.table_manipulation.recode_conditionally" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recode a variable to the specified value, when any of the conditional
+variables are not 0 (OR gate). All other values of the target variable
+remain unchanged.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – dataframe containing target variable and conditional variables</p></li>
+<li><p><strong>target</strong> (<em>str</em>) – name of variable to be recoded</p></li>
+<li><p><strong>condition</strong> (<em>list</em>) – list of variables used as the condition for assigning the target value</p></li>
+<li><p><strong>value</strong> (<em>int</em><em> or </em><em>float</em>) – value to be assigned to target variable when any conditional varaible
+is not 0</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>recoded_df</strong> – dataframe containing recoded target variable</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimetables.core.table_manipulation.recode_to_binary">
+<code class="sig-prename descclassname">crimetables.core.table_manipulation.</code><code class="sig-name descname">recode_to_binary</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">variable_names</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/table_manipulation.html#recode_to_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.table_manipulation.recode_to_binary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recode specified variables of dataframe to binary; any positive value is
+set to 1 and all other values are set to 0. This replaces the existing
+column(s).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – dataframe containing variables to be recoded</p></li>
+<li><p><strong>variable_names</strong> (<em>dict</em>) – list of variable names to recode to binary</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>recoded_df</strong> – dataframe containing new variables with coding reversed</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimetables.core.table_manipulation.reverse_binary">
+<code class="sig-prename descclassname">crimetables.core.table_manipulation.</code><code class="sig-name descname">reverse_binary</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">target</em>, <em class="sig-param">new</em>, <em class="sig-param">label</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/table_manipulation.html#reverse_binary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.table_manipulation.reverse_binary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reverse the binary coding of a single variable and stores the reuslt  as a
+new variable. A new label is stored in the global label map, so that the
+variable may be renamed at a lated stage. The original variable remains in
+the dataset, unless the old name is identical to the new name - in this
+case the old variable and label are overwritten.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – dataframe containing variables to be recoded</p></li>
+<li><p><strong>variable_map</strong> (<em>dict</em>) – dictionary containing map of previous variable names to new names</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>recoded_df</strong> – dataframe containing new variables with the binary coding of the
+original variables reversed</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crimetables.core.table_types">
+<span id="crimetables-core-table-types-module"></span><h2>2.2. crimetables.core.table_types module<a class="headerlink" href="#module-crimetables.core.table_types" title="Permalink to this headline">¶</a></h2>
+<p>Functions to produce distinct table types. These functions should take a
+dataframe as their first argument and must include the <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code> parameter
+to handle excess keywords in configuration files.</p>
+<dl class="function">
+<dt id="crimetables.core.table_types.count_table">
+<code class="sig-prename descclassname">crimetables.core.table_types.</code><code class="sig-name descname">count_table</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">index</em>, <em class="sig-param">columns</em>, <em class="sig-param">weight_var=None</em>, <em class="sig-param">percentage=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/table_types.html#count_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.table_types.count_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a contingency table of counts for multiple variables. Counts are
+only shown for positive responses (1) for each index variable. These counts
+can optionally be weighted and/or presented as percentages. Percentages are
+always returned when weights are applied.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – containing variables to be counted</p></li>
+<li><p><strong>index</strong> (<em>list</em>) – variables from <cite>df</cite> to be represented on the index axis</p></li>
+<li><p><strong>columns</strong> (<em>list</em>) – variables from <cite>df</cite> to be represented on the column axis</p></li>
+<li><p><strong>weight_var</strong> (<em>str</em><em> (</em><em>optional</em><em>)</em>) – variable to be used to weight counts. Percentages are always calculated
+for weighted counts.</p></li>
+<li><p><strong>pct</strong> (<em>bool</em><em> (</em><em>optional</em><em>)</em>) – to specify whether percentages of counts should be calculated. False
+by default.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>count_df</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crimetables.core.process_configs">
+<span id="crimetables-core-process-configs-module"></span><h2>2.3. crimetables.core.process_configs module<a class="headerlink" href="#module-crimetables.core.process_configs" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="crimetables.core.process_configs.create_style_dict">
+<code class="sig-prename descclassname">crimetables.core.process_configs.</code><code class="sig-name descname">create_style_dict</code><span class="sig-paren">(</span><em class="sig-param">default_style</em>, <em class="sig-param">additions</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/process_configs.html#create_style_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.process_configs.create_style_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new style dictionary by updating a default style.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimetables.core.process_configs.process_output_configs">
+<code class="sig-prename descclassname">crimetables.core.process_configs.</code><code class="sig-name descname">process_output_configs</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">config_directory</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/process_configs.html#process_output_configs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.process_configs.process_output_configs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read each config file in the config directory and produce each output using
+the specified input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – containing all input data</p></li>
+<li><p><strong>config_directory</strong> (<em>pathlib Path</em>) – path to directory containing output configuration files for the current
+input file (<cite>df</cite>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimetables.core.process_configs.write_table">
+<code class="sig-prename descclassname">crimetables.core.process_configs.</code><code class="sig-name descname">write_table</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">worksheet</em>, <em class="sig-param">start_row</em>, <em class="sig-param">style</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/process_configs.html#write_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.process_configs.write_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a table at the specified location of a xlsxwriter worksheet. Table
+starts at first column and specified row.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – table data to be written to excel worksheet</p></li>
+<li><p><strong>worksheet</strong> (<em>xlsxwriter worksheet</em>) – path to directory containing output configuration files for the current
+input file (<cite>df</cite>)</p></li>
+<li><p><strong>start_row</strong> (<em>int</em>) – row to write the header row of the table to</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crimetables.core.produce_table">
+<span id="crimetables-core-produce-table-module"></span><h2>2.4. crimetables.core.produce_table module<a class="headerlink" href="#module-crimetables.core.produce_table" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="crimetables.core.produce_table.produce_subtable">
+<code class="sig-prename descclassname">crimetables.core.produce_table.</code><code class="sig-name descname">produce_subtable</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">subtable_cfg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/produce_table.html#produce_subtable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.produce_table.produce_subtable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a subsection of a table, using the suplied configuration file to
+determine table type and table manipulations to be carried out. Subtables
+have their own summary data (e.g. unweighted base counts).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – containing all input data</p></li>
+<li><p><strong>subtable_cfg</strong> (<em>dict</em>) – configuration file, detailing table type and variable manipulations to
+be carried out to produce a single subtable</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>output_df</strong> – output table, consisting of one or more subtables</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="crimetables.core.produce_table.produce_table">
+<code class="sig-prename descclassname">crimetables.core.produce_table.</code><code class="sig-name descname">produce_table</code><span class="sig-paren">(</span><em class="sig-param">df</em>, <em class="sig-param">data_cfg</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/crimetables/core/produce_table.html#produce_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#crimetables.core.produce_table.produce_table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a table, using the suplied configuration file to determine table
+type and table manipulations to be carried out. Tables can be created using
+multiple subtables. Subtables have their own summary data (e.g. unweighted
+base counts).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame</em>) – containing all input data</p></li>
+<li><p><strong>data_cfg</strong> (<em>dict</em>) – configuration file, detailing table type and variable manipulations to
+be carried out to produce one or more subtables</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>output_df</strong> – output table, consisting of one or more subtables</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-crimetables.core.mappers">
+<span id="crimetables-core-mappers-module"></span><h2>2.5. crimetables.core.mappers module<a class="headerlink" href="#module-crimetables.core.mappers" title="Permalink to this headline">¶</a></h2>
+<p>A cross-module variable that stores up-to-date labels for variables.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="doc.changelog.html" class="btn btn-neutral float-left" title="1. Changelog" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, David Foster
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

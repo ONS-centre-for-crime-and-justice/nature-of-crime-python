@@ -1,0 +1,65 @@
+global:
+    font_size: 9
+    font_name: Arial
+    
+cover_title:
+    bold: True
+    font_size: 12
+
+cover_subtitle:
+    bold: True
+    font_size: 10
+    
+cover_text:
+
+title:
+    bold: True
+       
+subtitle:
+    italic: True
+
+scope:
+    bottom: 1
+
+units:
+    align: right
+    italic: True
+
+column_heading:
+    bold: True
+    bottom: 1
+    top: 1
+    align: right
+    text_wrap: True
+
+index_1:
+    bold: True
+
+index_2:
+
+index_3:
+    italic: True
+
+data:
+    num_format: '#,##0'
+    align: right
+
+source:
+    font_size: 8
+
+legend:
+    font_size: 8
+
+annotations:
+    font_size: 8
+
+notes:
+    font_size: 8
+
+footer_order:
+    - source
+    - annotations
+    - legend
+    - notes
+
+missing_value: '..'

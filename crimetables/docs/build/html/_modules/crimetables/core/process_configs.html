@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crimetables.core.process_configs &mdash; crimetables  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> crimetables
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.changelog.html">1. Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crimetables.core.html">2. crimetables.core package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">crimetables</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crimetables.core.process_configs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crimetables.core.process_configs</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+<span class="kn">import</span> <span class="nn">xlsxwriter</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">crimetables.core.produce_table</span> <span class="kn">import</span> <span class="n">produce_table</span>
+
+<div class="viewcode-block" id="process_output_configs"><a class="viewcode-back" href="../../../crimetables.core.html#crimetables.core.process_configs.process_output_configs">[docs]</a><span class="k">def</span> <span class="nf">process_output_configs</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">config_directory</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Read each config file in the config directory and produce each output using</span>
+<span class="sd">    the specified input data.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        containing all input data</span>
+<span class="sd">    config_directory : pathlib Path</span>
+<span class="sd">        path to directory containing output configuration files for the current</span>
+<span class="sd">        input file (`df`)</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">config_directory</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">config_file</span> <span class="ow">in</span> <span class="nb">next</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="n">config_directory</span><span class="p">))[</span><span class="mi">2</span><span class="p">]:</span>
+        <span class="n">cfg_file_path</span> <span class="o">=</span> <span class="n">config_directory</span> <span class="o">/</span> <span class="n">config_file</span>
+        <span class="k">with</span> <span class="n">cfg_file_path</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">output_cfg</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>        
+        
+        <span class="c1">## Create corresponding output dir, if it doesn&#39;t exist</span>
+        <span class="n">output_directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span>
+                <span class="n">config_directory</span><span class="o">.</span><span class="n">parent</span>
+                <span class="p">)</span>
+                <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">output_directory</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">output_directory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="c1">## Create output</span>
+        <span class="n">output_name</span> <span class="o">=</span> <span class="n">output_cfg</span><span class="p">[</span><span class="s2">&quot;output_name&quot;</span><span class="p">]</span>
+        <span class="n">output_file</span> <span class="o">=</span> <span class="n">output_directory</span> <span class="o">/</span> <span class="n">output_name</span>
+        <span class="n">output_file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">output_file</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">))</span>
+        
+        <span class="n">workbook</span> <span class="o">=</span> <span class="n">xlsxwriter</span><span class="o">.</span><span class="n">Workbook</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+                
+        <span class="k">for</span> <span class="n">table_name</span> <span class="ow">in</span> <span class="n">output_cfg</span><span class="p">[</span><span class="s2">&quot;tables&quot;</span><span class="p">]:</span>
+            <span class="n">table_cfg</span> <span class="o">=</span> <span class="n">output_cfg</span><span class="p">[</span><span class="s2">&quot;tables&quot;</span><span class="p">][</span><span class="n">table_name</span><span class="p">]</span>
+            <span class="n">data_cfg</span> <span class="o">=</span> <span class="n">table_cfg</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span>
+            
+            <span class="c1"># Create table, according to config</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="n">produce_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">data_cfg</span><span class="p">)</span>
+            
+            <span class="c1"># Substitute table col and row labels</span>
+            <span class="kn">import</span> <span class="nn">crimetables.core.mappers</span> <span class="k">as</span> <span class="nn">mappers</span>
+
+            <span class="n">table</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="n">mappers</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="n">mappers</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+            
+            <span class="c1"># Table dimensions</span>
+            <span class="n">num_rows</span><span class="p">,</span> <span class="n">num_cols</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">shape</span>
+            
+            <span class="c1"># Create sheet</span>
+            <span class="n">worksheet</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_worksheet</span><span class="p">(</span><span class="n">table_cfg</span><span class="p">[</span><span class="s2">&quot;sheet_name&quot;</span><span class="p">])</span>
+            <span class="n">worksheet</span><span class="o">.</span><span class="n">hide_gridlines</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Hide all gridlines</span>
+            <span class="n">worksheet</span><span class="o">.</span><span class="n">set_column</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">))</span> <span class="o">*</span> <span class="mf">0.77</span><span class="p">)</span>
+            <span class="n">row_num</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># Track row position while writing</span>
+            
+            <span class="c1"># Create styles</span>
+            <span class="n">default_style_dict</span> <span class="o">=</span> <span class="n">table_cfg</span><span class="p">[</span><span class="s2">&quot;format&quot;</span><span class="p">][</span><span class="s2">&quot;default&quot;</span><span class="p">]</span>
+            <span class="n">default_style</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span><span class="n">default_style_dict</span><span class="p">)</span>
+            
+            <span class="n">l_header_style_dict</span> <span class="o">=</span> <span class="n">create_style_dict</span><span class="p">(</span>
+                    <span class="n">default_style_dict</span><span class="p">,</span> <span class="n">table_cfg</span><span class="p">[</span><span class="s2">&quot;format&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">])</span>
+            <span class="n">l_header_style</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span><span class="n">l_header_style_dict</span><span class="p">)</span>
+            
+            <span class="n">r_header_style_dict</span> <span class="o">=</span> <span class="n">create_style_dict</span><span class="p">(</span>
+                    <span class="n">default_style_dict</span><span class="p">,</span> <span class="n">table_cfg</span><span class="p">[</span><span class="s2">&quot;format&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">])</span>
+            <span class="n">r_header_style_dict</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;align&quot;</span><span class="p">:</span> <span class="s2">&quot;right&quot;</span><span class="p">})</span>
+            <span class="n">r_header_style</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span><span class="n">r_header_style_dict</span><span class="p">)</span>
+            
+            
+            <span class="n">notes_style_dict</span> <span class="o">=</span> <span class="n">create_style_dict</span><span class="p">(</span>
+                    <span class="n">default_style_dict</span><span class="p">,</span> <span class="n">table_cfg</span><span class="p">[</span><span class="s2">&quot;format&quot;</span><span class="p">][</span><span class="s2">&quot;notes&quot;</span><span class="p">])</span>
+            <span class="n">notes_style</span> <span class="o">=</span> <span class="n">workbook</span><span class="o">.</span><span class="n">add_format</span><span class="p">(</span><span class="n">notes_style_dict</span><span class="p">)</span>
+            
+            <span class="c1"># Write header and subheaders</span>
+            <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row_num</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                            <span class="n">table_cfg</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">][</span><span class="s2">&quot;header&quot;</span><span class="p">],</span>
+                            <span class="n">l_header_style</span><span class="p">)</span>
+            <span class="n">row_num</span> <span class="o">+=</span> <span class="mi">2</span>  <span class="c1"># Include spacer below header</span>
+            
+            <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row_num</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+                            <span class="n">table_cfg</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">][</span><span class="s2">&quot;sub_header_left&quot;</span><span class="p">],</span>
+                            <span class="n">l_header_style</span><span class="p">)</span>
+            <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row_num</span><span class="p">,</span> <span class="n">num_cols</span><span class="p">,</span>
+                            <span class="n">table_cfg</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">][</span><span class="s2">&quot;sub_header_right&quot;</span><span class="p">],</span>
+                            <span class="n">r_header_style</span><span class="p">)</span>
+            <span class="n">row_num</span> <span class="o">+=</span> <span class="mi">1</span>
+            
+            <span class="c1"># Write table</span>
+            <span class="n">write_table</span><span class="p">(</span><span class="n">table</span><span class="p">,</span> <span class="n">worksheet</span><span class="p">,</span> <span class="n">row_num</span><span class="p">,</span> <span class="n">default_style</span><span class="p">)</span>
+            <span class="n">row_num</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+            
+            <span class="c1"># Write notes</span>
+            <span class="k">for</span> <span class="n">note</span> <span class="ow">in</span> <span class="n">table_cfg</span><span class="p">[</span><span class="s2">&quot;text&quot;</span><span class="p">][</span><span class="s2">&quot;notes&quot;</span><span class="p">]:</span>
+                <span class="n">worksheet</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">row_num</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">note</span><span class="p">,</span> <span class="n">notes_style</span><span class="p">)</span>
+                <span class="n">row_num</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">workbook</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">LOGGER</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Output produced: </span><span class="si">{output_name}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="write_table"><a class="viewcode-back" href="../../../crimetables.core.html#crimetables.core.process_configs.write_table">[docs]</a><span class="k">def</span> <span class="nf">write_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">worksheet</span><span class="p">,</span> <span class="n">start_row</span><span class="p">,</span> <span class="n">style</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Writes a table at the specified location of a xlsxwriter worksheet. Table</span>
+<span class="sd">    starts at first column and specified row.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        table data to be written to excel worksheet</span>
+<span class="sd">    worksheet : xlsxwriter worksheet</span>
+<span class="sd">        path to directory containing output configuration files for the current</span>
+<span class="sd">        input file (`df`)</span>
+<span class="sd">    start_row : int</span>
+<span class="sd">        row to write the header row of the table to</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">end_row</span> <span class="o">=</span> <span class="n">start_row</span> <span class="o">+</span> <span class="n">rows</span>
+
+    <span class="n">table</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span><span class="s2">&quot; &quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    
+    <span class="n">column_labels</span> <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;header&quot;</span><span class="p">:</span> <span class="n">column</span><span class="p">,</span>
+                      <span class="s2">&quot;format&quot;</span><span class="p">:</span> <span class="n">style</span><span class="p">,</span>
+                      <span class="s2">&quot;header_format&quot;</span><span class="p">:</span> <span class="n">style</span>
+                      <span class="p">}</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span>  <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">columns</span><span class="p">]]</span>
+    <span class="n">worksheet</span><span class="o">.</span><span class="n">add_table</span><span class="p">(</span><span class="n">first_row</span><span class="o">=</span><span class="n">start_row</span><span class="p">,</span>
+                        <span class="n">last_row</span><span class="o">=</span><span class="n">end_row</span><span class="p">,</span>
+                        <span class="n">first_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">last_col</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span>
+                        <span class="n">options</span><span class="o">=</span><span class="p">{</span>
+                            <span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="n">table</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                            <span class="s2">&quot;columns&quot;</span><span class="p">:</span> <span class="n">column_labels</span><span class="p">,</span>
+                            <span class="s2">&quot;autofilter&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+                            <span class="s2">&quot;style&quot;</span><span class="p">:</span> <span class="kc">None</span>
+                        <span class="p">})</span></div>
+
+
+<div class="viewcode-block" id="create_style_dict"><a class="viewcode-back" href="../../../crimetables.core.html#crimetables.core.process_configs.create_style_dict">[docs]</a><span class="k">def</span> <span class="nf">create_style_dict</span><span class="p">(</span><span class="n">default_style</span><span class="p">,</span> <span class="n">additions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a new style dictionary by updating a default style.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_style</span> <span class="o">=</span> <span class="n">default_style</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">new_style</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">additions</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">new_style</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, David Foster
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

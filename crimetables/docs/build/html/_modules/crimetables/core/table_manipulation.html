@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>crimetables.core.table_manipulation &mdash; crimetables  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> crimetables
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../doc.changelog.html">1. Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../crimetables.core.html">2. crimetables.core package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">crimetables</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>crimetables.core.table_manipulation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for crimetables.core.table_manipulation</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions to manipulate variable data. These functions will not take</span>
+<span class="sd">unspecified keyword arguments, therefore, configuration files must use exact</span>
+<span class="sd">parameter names. These functions return a copy, so do not alter the original</span>
+<span class="sd">dataframe. As such, you must reassign the return dataframe.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="n">LOGGER</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="filter_with_weight"><a class="viewcode-back" href="../../../crimetables.core.html#crimetables.core.table_manipulation.filter_with_weight">[docs]</a><span class="k">def</span> <span class="nf">filter_with_weight</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">weight_variable</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Filter dataset for rows with a positive int weight. Drops 0 or NA weights.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        dataframe to be filtered</span>
+<span class="sd">    weight_variable : str</span>
+<span class="sd">        weight variable name</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    filtered_df : pandas DataFrame</span>
+<span class="sd">        dataframe that has been filtered for positive `weight_variable`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">weight_variable</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">filtered_df</span></div>
+
+
+<div class="viewcode-block" id="filter_with_value"><a class="viewcode-back" href="../../../crimetables.core.html#crimetables.core.table_manipulation.filter_with_value">[docs]</a><span class="k">def</span> <span class="nf">filter_with_value</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">variable</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Filter dataset for rows containing a specific value in a variable column.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        dataframe to be filtered</span>
+<span class="sd">    variable : str</span>
+<span class="sd">        name of variable to be used for filtering</span>
+<span class="sd">    value : int or float</span>
+<span class="sd">        value to filter for in variable column</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    filtered_df : pandas DataFrame</span>
+<span class="sd">        dataframe that has been filtered for value in variable column</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">filtered_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">filtered_df</span></div>
+
+
+<div class="viewcode-block" id="apply_weight"><a class="viewcode-back" href="../../../crimetables.core.html#crimetables.core.table_manipulation.apply_weight">[docs]</a><span class="k">def</span> <span class="nf">apply_weight</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">weight_variable</span><span class="p">,</span> <span class="n">variable_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply weight column to the specified variables of a dataframe, by</span>
+<span class="sd">    multiplication. Both the weight variable and variables to be weighted</span>
+<span class="sd">    should be in the provided dataframe.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        dataframe containing columns to be weighted</span>
+<span class="sd">    weight_variable : str</span>
+<span class="sd">        weight variable name</span>
+<span class="sd">    variable_names : list</span>
+<span class="sd">        list of variables that should be weighted</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    weighted_df : pandas DataFrame</span>
+<span class="sd">        dataframe containing weighted variables</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">weighted_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">weighted_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">variable_names</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">weighted_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">variable_names</span><span class="p">]</span>
+        <span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">weighted_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">weight_variable</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">weighted_df</span></div>
+
+
+<div class="viewcode-block" id="recode_to_binary"><a class="viewcode-back" href="../../../crimetables.core.html#crimetables.core.table_manipulation.recode_to_binary">[docs]</a><span class="k">def</span> <span class="nf">recode_to_binary</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">variable_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recode specified variables of dataframe to binary; any positive value is</span>
+<span class="sd">    set to 1 and all other values are set to 0. This replaces the existing</span>
+<span class="sd">    column(s).</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        dataframe containing variables to be recoded</span>
+<span class="sd">    variable_names : dict</span>
+<span class="sd">        list of variable names to recode to binary</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    recoded_df : pandas DataFrame</span>
+<span class="sd">        dataframe containing new variables with coding reversed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">recoded_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">recoded_df</span><span class="p">[</span><span class="n">variable_names</span><span class="p">]</span> <span class="o">=</span><span class="p">(</span>
+            <span class="n">recoded_df</span><span class="p">[</span><span class="n">variable_names</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;int64&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">recoded_df</span></div>
+
+
+<div class="viewcode-block" id="reverse_binary"><a class="viewcode-back" href="../../../crimetables.core.html#crimetables.core.table_manipulation.reverse_binary">[docs]</a><span class="k">def</span> <span class="nf">reverse_binary</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reverse the binary coding of a single variable and stores the reuslt  as a</span>
+<span class="sd">    new variable. A new label is stored in the global label map, so that the</span>
+<span class="sd">    variable may be renamed at a lated stage. The original variable remains in</span>
+<span class="sd">    the dataset, unless the old name is identical to the new name - in this</span>
+<span class="sd">    case the old variable and label are overwritten.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        dataframe containing variables to be recoded</span>
+<span class="sd">    variable_map : dict</span>
+<span class="sd">        dictionary containing map of previous variable names to new names</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    recoded_df : pandas DataFrame</span>
+<span class="sd">        dataframe containing new variables with the binary coding of the</span>
+<span class="sd">        original variables reversed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">recoded_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">recoded_df</span><span class="p">[</span><span class="n">new</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">recoded_df</span><span class="p">[</span><span class="n">target</span><span class="p">]</span>
+    
+    <span class="kn">import</span> <span class="nn">crimetables.core.mappers</span> <span class="k">as</span> <span class="nn">mappers</span>  <span class="c1"># Fetch global mappers</span>
+    <span class="n">mappers</span><span class="o">.</span><span class="n">label_map</span><span class="p">[</span><span class="n">new</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
+    
+    <span class="k">return</span> <span class="n">recoded_df</span></div>
+
+
+<div class="viewcode-block" id="recode_conditionally"><a class="viewcode-back" href="../../../crimetables.core.html#crimetables.core.table_manipulation.recode_conditionally">[docs]</a><span class="k">def</span> <span class="nf">recode_conditionally</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recode a variable to the specified value, when any of the conditional</span>
+<span class="sd">    variables are not 0 (OR gate). All other values of the target variable</span>
+<span class="sd">    remain unchanged.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    df : pandas DataFrame</span>
+<span class="sd">        dataframe containing target variable and conditional variables</span>
+<span class="sd">    target : str</span>
+<span class="sd">        name of variable to be recoded</span>
+<span class="sd">    condition : list</span>
+<span class="sd">        list of variables used as the condition for assigning the target value</span>
+<span class="sd">    value : int or float</span>
+<span class="sd">        value to be assigned to target variable when any conditional varaible</span>
+<span class="sd">        is not 0</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    recoded_df : pandas DataFrame</span>
+<span class="sd">        dataframe containing recoded target variable   </span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">recoded_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">recoded_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="n">condition</span><span class="p">]</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">target</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">recoded_df</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, David Foster
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
